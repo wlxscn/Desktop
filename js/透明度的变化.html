@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片透明度变化</title>
+</head>
+<body>
+	<div><img src="http://img13.360buyimg.com/n1/jfs/t253/339/684583987/309716/5da5fdcb/53ef8a13Ncc2614f0.jpg" alt="first"></div>
+	<script type="text/javascript">
+	    (function  () {
+           var oimg=document.getElementsByTagName('img')[0];
+          oimg.onmouseover=function(){
+          	fade(this,30);
+          } ;
+          oimg.onmouseout=function(){
+          	fade(this,100);
+          } 
+
+	    	function css (obj,attr) {
+	    		if(obj.currentStyle){
+	    			return obj.currentStyle[attr];
+	    		}else{
+	    			return getComputedStyle(obj,false)[attr];
+	    		}
+	    	}
+	    	function fade(obj,target){
+	    		clearInterval(obj.timer);
+	    		obj.timer=setInterval(function(){
+	    	          var alpha=0;
+	    	          var cur=css(obj,'opacity')*100;
+	    	          alpha=(target-cur)/8;
+	    	          alpha=alpha>0?Math.ceil(alpha):Math.floor(alpha);
+	    	          cur+=alpha;
+	    	          obj.style.opacity=cur/100;
+	    	          obl.style.filter='alpha(opacity='+cur+')';
+	    	          if(cur==target){
+	    	          	clearInterval(obj.timer);
+	    	          	obj.timer=null;
+	    	          }
+	    		}
+	    			,30)
+	    	}
+	    })()
+	</script>
+</body>
+</html>

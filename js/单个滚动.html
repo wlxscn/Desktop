@@ -1,0 +1,153 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>单图滚动</title>
+    <style>
+        *{ margin:0; padding:0;}
+        body{font:12px/1.125 Arial,Helvetica,sans-serif;background:#fff;}
+        table{border-collapse:collapse;border-spacing:0;}
+        li{list-style:none;}
+        fieldset,img{border:0;}
+        article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
+        q:before,q:after{content:'';}
+        a:focus,input,textarea{outline-style:none;}
+        input[type="text"],input[type="password"],textarea{outline-style:none;-webkit-appearance:none;}
+        textarea{resize:none}
+        address,caption,cite,code,dfn,em,i,th,var{font-style:normal;font-weight:normal;}
+        legend{color:#000;}
+        abbr,acronym{border:0;font-variant:normal;}
+        a{color:#0a8cd2;text-decoration:none;cursor: pointer;}
+        a:hover{text-decoration:underline;}
+        .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+        .clearfix{display:inline-block;}
+        .clearfix{display:block;}
+        .clear{clear:both;height:0;font:0/0 Arial;visibility:hidden;}
+        .none{display:none}
+        /* main.css */
+        .wrapper{text-align:center;width:980px;margin:0px auto;position:relative}
+        #index-banner{width:980px;height:208px}
+        .img-li-float{float:left}
+        #box ul{ z-index:2;}
+        .banner-ico-box{position:absolute;left:0;bottom:20px;width:100%;text-align:center; z-index:4;}
+        .banner-ico-box a{width:10px;height:10px;display:inline-block;background:url(http://jikeytang.github.io/slide/09/img/banner-btn.png) -16px -50px no-repeat;margin-right:8px}
+        .banner-ico-box .active{width:10px;height:10px;display:inline-block;background:url(http://jikeytang.github.io/slide/09/img/banner-btn.png) -1px -50px no-repeat}
+        .banner-left-btn,.banner-right-btn{ z-index:3;width:50px;height:50px;display:inline-block;position:absolute;top:50%;margin-top:-25px;}
+        .banner-left-btn{background:url(http://jikeytang.github.io/slide/09/img/banner-btn.png) 0 0 no-repeat;left:0;}
+        .banner-right-btn{background:url(http://jikeytang.github.io/slide/09/img/banner-btn.png) -50px 0 no-repeat;right:0;}
+   </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div id="index-banner">
+        <div id="box" style="width: 980px; position: relative; height: 210px; overflow:hidden;">
+            <ul style="position: absolute;top: 0;left: 0;width: 9800px;">
+                <li class="img-li-float">
+                    <a target="_blank"><img src="http://jikeytang.github.io/slide/09/img/1.jpg"></a>
+                </li>
+                <li class="img-li-float">
+                    <a target="_blank"><img src="http://jikeytang.github.io/slide/09/img/2.png"></a>
+                </li>
+                <li class="img-li-float">
+                    <a target="_blank"><img src="http://jikeytang.github.io/slide/09/img/3.jpg"></a>
+                </li>
+                <li class="img-li-float">
+                    <a target="_blank"><img src="http://jikeytang.github.io/slide/09/img/4.png"></a>
+                </li>
+                <li class="img-li-float">
+                    <a target="_blank"><img src="http://jikeytang.github.io/slide/09/img/5.jpg"></a>
+                </li>
+            </ul>
+            <div id="ico" class="banner-ico-box">
+                <a class="active"></a><a class=""></a><a class=""></a><a class=""></a><a></a>
+            </div>
+            <a id="prev" class="banner-left-btn"></a><a id="next" class="banner-right-btn"></a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    (function(){
+    var obox=document.getElementById('box');
+    var oul=obox.getElementsByTagName('ul')[0];
+    var oli=oul.getElementsByTagName('li');
+    var image=oul.getElementsByTagName('img');
+    var l=oli.length;
+    var ico = document.getElementById('ico').getElementsByTagName('a');
+    var prev = document.getElementById('prev');
+    var next = document.getElementById('next');
+    var li_w;
+     image[0].onload = function(){
+            li_w = oli[0].offsetWidth;
+        }
+    var now=0;
+    var timer=null;
+    function auto(){
+        next.onclick();
+    }
+    timer=setInterval(auto,3000);
+   
+    prev.onclick=function(){
+        if(now>0){
+            now--;
+            scroll();
+        }else{
+            now=l-1;
+            setTimeout(function(){oul.style.left=-(l-1)*li_w+'px';tab();},300)
+            
+        }
+        
+    }
+    next.onclick=function(){
+        if(now<l-1){
+            now++;
+            scroll();
+        }else{
+            now=0;
+            setTimeout(function(){oul.style.left=0+'px';tab();},300)
+            
+           }
+        
+    }
+     obox.onmouseover=function(){
+        clearInterval(timer);
+    }
+    obox.onmouseout=function(){
+        timer=setInterval(auto,3000);
+    }
+     function scroll(){
+            act(oul, 'left', -li_w * (now));
+            tab();
+        }
+    function act(obj,attr,target){
+        obj.timer&&clearInterval(obj.timer);
+        obj.timer=setInterval(function(){
+            var speed;
+            var cur=parseInt(css(obj,attr));
+            speed=(target-cur)/8;
+            speed=speed>0?Math.ceil(speed):Math.floor(speed);
+            cur+=speed
+            obj.style[attr]=cur+'px';
+            if(cur==target){
+                 clearInterval(obj.timer);
+                 obj.timer=null;
+            }
+        },30)
+    }
+    function tab(){
+        for(var i=0;i<l;i++){
+            ico[i].className="";
+        }
+        ico[now].className="active";
+      }
+      function css(obj,attr){
+        if(obj.currentStyle){
+            return obj.currentStyle[attr];
+        }else{
+           return getComputedStyle(obj,false)[attr];
+        }
+      }
+     
+    }())
+</script>
+</body>
+</html>
