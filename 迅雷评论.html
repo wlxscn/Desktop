@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+        *{ margin:0; padding:0;}
+        body{font:12px/1.125 Arial,Helvetica,sans-serif;background:#fff;}
+        table{border-collapse:collapse;border-spacing:0;}
+        li{list-style:none;}
+        input[type="text"],input[type="password"],textarea{outline-style:none;-webkit-appearance:none;}
+        textarea{resize:none}
+        address,caption,cite,code,dfn,em,i,th,var{font-style:normal;font-weight:normal;}
+        legend{color:#000;}
+        a{color:#0a8cd2;text-decoration:none;}
+        a:hover{text-decoration:underline;}
+        .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+        .clearfix{display:inline-block;}
+        .clearfix{display:block;}
+        
+        .demo{ position:relative; width:400px;margin:0 auto; padding-top:120px;}
+        .list li{ float:left; width:16px; height:16px; margin-right:3px;cursor:pointer; display:inline; overflow:hidden; background:url(http://images.cnitblog.com/blog/100150/201304/02220917-50348f051a004a7385e4aaafcc3ce7a6.png) 0 -16px no-repeat;}
+        .list li.cur{ background-position:0 0;}
+        .score{float:left;width:50px;height:20px;}
+        .test{float:left;width:50px;height:20px;}
+        </style>
+</head>
+<body>
+<div class="demo" id="demo">
+   <ul class="list">
+   	<li></li>
+   	<li></li>
+   	<li></li>
+   	<li></li>
+   	<li></li>
+   </ul>
+   <p class='score'></p>
+	<p class='test'></p>
+	</div>
+	<script type="text/javascript">
+	  var odiv=document.getElementById('demo');
+	  var oul=document.getElementsByTagName('ul')[0];
+	  var oli=document.getElementsByTagName('li');
+	  var p1=document.getElementsByTagName('p')[0];
+	  var p2=document.getElementsByTagName('p')[1];
+	  var odata=['较差', '一般', '好看', '推荐', '力荐'];
+	  var bcheck=false;
+	  for(var i=0;i<oli.length;i++){
+	  	var first=null;
+	  	oli[i].index=i;
+	  	oli[i].onmouseover=function(){
+            for(var i=0;i<oli.length;i++){
+            	oli[i].className='';
+            }
+            for(var i=0;i<=this.index;i++){
+            	oli[i].className='cur';
+            }
+           
+            p2.innerHTML=odata[this.index];
+            if(!bcheck){
+            	p1.innerHTML=20*(this.index+1)+'分';
+            }
+	  	}
+	  	oli[i].onclick=function(){
+         if(!bcheck){
+          first=this.index
+         	bcheck=true;
+         	alert('您已评论！')
+         }else{
+         	 for(i = 0; i < oli.length; i++){
+                    oli[i].className = '';
+                }
+                for(var j = 0; j <= first; j++){
+                    oli[j].className = 'cur';
+                }
+                alert('你已评过分!');
+         }
+	  	}
+	  }
+	</script>
+</div>	
+</body>
+</html>

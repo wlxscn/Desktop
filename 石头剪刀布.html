@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	   div{width:300px;height:300px;float:left;}
+	   #sj{float:right;background-repeat: no-repeat;display: none;}
+	   
+	   #jd{background:url(https://www.anotherhome.net/image/uploads/2015/07/剪子.jpg ) no-repeat}
+	   #st{background:url(https://www.anotherhome.net/image/uploads/2015/07/石头.jpg ) no-repeat}
+	   #bu{background:url(https://www.anotherhome.net/image/uploads/2015/07/布.jpg) no-repeat}
+	</style>
+</head>
+<body>
+    <p></p>
+   <div id="sj"></div>
+   <div id="jd"></div>
+   <div id="st"></div>
+   <div id="bu"></div>
+ <script type="text/javascript">
+    var sj=document.getElementById('sj');
+    var jd=document.getElementById('jd');
+    var st=document.getElementById('st');
+    var bu=document.getElementById('bu');
+    var tj=document.getElementsByTagName('p')[0];
+    var a=0;
+    var b=0;
+    var sum=0;
+    function sjb() {
+    	st.onclick=function(){
+            var b=Math.floor(Math.random()*3+1);
+            var a=3;
+             sj.style.display='block';
+              switch(b) {
+          	case 2:
+          	   sj.style.backgroundImage="url(https://www.anotherhome.net/image/uploads/2015/07/剪子.jpg) "
+          		alert("win");
+          		sum++;
+          		tj.innerHTML='共赢'+sum+'次';
+          		break;
+          	case 3:
+          	   sj.style.backgroundImage="url(https://www.anotherhome.net/image/uploads/2015/07/石头.jpg) "
+          		alert("again");
+          		break;
+            case 1:
+            sj.style.backgroundImage="url(https://www.anotherhome.net/image/uploads/2015/07/布.jpg) "
+                alert("lose");
+                break;		
+          }
+
+    	}
+    	jd.onclick=function(){
+    		var b=Math.floor(Math.random()*3+1);
+            var a=2;
+            sj.style.display='block';
+          switch(b) {
+          	case 1:
+          	sj.style.backgroundImage="url(https://www.anotherhome.net/image/uploads/2015/07/布.jpg) "
+          		alert("win");
+          		sum++;
+          		tj.innerHTML='共赢'+sum+'次';
+          		break;
+          	case 2:
+          	sj.style.backgroundImage="url(https://www.anotherhome.net/image/uploads/2015/07/剪子.jpg) "
+          		alert("again");
+
+          		break;
+            case 3:
+            sj.style.backgroundImage="url(https://www.anotherhome.net/image/uploads/2015/07/石头.jpg) "
+                alert("lose");
+                break;		
+          }
+    	}
+    	
+    	bu.onclick=function(){
+            var b=Math.floor(Math.random()*3+1);
+            var a=1;
+             sj.style.display='block';
+              switch(b) {
+          	case 3:
+          	sj.style.backgroundImage="url(https://www.anotherhome.net/image/uploads/2015/07/石头.jpg) "
+          		alert("win");
+          		sum++;
+          		tj.innerHTML='共赢'+sum+'次';
+          		break;
+          	case 1:
+          	sj.style.backgroundImage="url(https://www.anotherhome.net/image/uploads/2015/07/布.jpg) "
+          		alert("again");
+          		break;
+            case 2:
+            sj.style.backgroundImage="url(https://www.anotherhome.net/image/uploads/2015/07/剪子.jpg) "
+                alert("lose");
+                break;		
+          }
+
+    	}
+    };
+    sjb();
+    
+ </script>
+</body>
+</html>

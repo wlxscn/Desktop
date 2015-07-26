@@ -1,0 +1,32 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+  	<meta charset="UTF-8">
+  	<title>Document</title>
+  </head>
+  <body>
+  	<script type="text/javascript">
+  	  function m(n,x){	
+  	  	var t=(n+'').length-x;
+  	  	return (t>0?~~(n/Math.pow(10,t)):n)%10;
+  	  }
+  	  function recursion(a,b,c,md){
+         if(m(a,x)!=m(b,x)){
+         	return m(b,x)-m(a,x);
+         }else if(x>md){
+             return 0;
+         }
+         return recursion(a,b,x+1,md);
+  	  }
+  	  function compare(a,b){
+  	  	if(m(a,1)===m(b,1)){
+  	  		return recursion(a,b,2,Math.min((a+'').length,(b+'').length));
+  	  	}
+  	  	return m(b,1)-m(a,1);
+  	  }
+  	  function f1 (i) {
+  	  	return (i.sort(compare).join(''))
+  	  }
+  	</script>
+  </body>
+  </html>

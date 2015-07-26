@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	   *{ margin:0; padding:0;}
+        body{font:12px/1.125 Arial,Helvetica,sans-serif;background:#fff;}
+        a:focus,input,textarea{outline-style:none;}
+        a{color:#0a8cd2;text-decoration:none;}
+        a:hover{text-decoration:underline;}
+        .none{display:none}
+        .demo{ height:2000px;}
+        .gotop{ width:18px;line-height:1.2;padding:7px 0px 7px 2px;background-color:#000;color:#fff;font-size:12px;text-align:center;position:fixed;_position:absolute;right:0px;bottom:100px;_bottom:"auto";cursor:pointer;opacity:0.6;filter:Alpha(opacity=60);border-radius:5px 0 0 5px; display:none;}
+        .gotop:hover{ text-decoration:none;opacity:0.7;filter:Alpha(opacity=70);}
+	</style>
+</head>
+<body>
+<div class='demo'></div>
+<script type="text/javascript">
+(function(){
+	// function viewSize () {
+	// 	return {
+	// 		'width':(window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth),
+	// 		'height':(window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight)
+	// 	};
+	// }
+   function getScrollTop(){
+   	   return document.documentElement.scrollTop||document.body.scrollTop;
+   }
+   var btn=null;
+   var timer=0;
+   function appendScroll(){
+	   	btn=document.createElement('a');
+	   	btn.className='gotop';
+	   	btn.href='javascript:void(0)';
+	   	btn.innerHTML='回到顶部';
+	   	document.body.appendChild(btn);
+   }
+   appendScroll();
+   window.onscroll=function(){
+   	btn.style.display=getScrollTop()>0?'block':'none';
+   }
+   btn.onclick=function(){
+   	
+   	
+     timer=setInterval(function(){
+        var cur=getScrollTop();
+   	    var speed;
+   	    speed=Math.floor(-cur/5);
+   	    if(cur==0){
+   	    	clearInterval(timer);
+   	    }
+   	    document.documentElement.scrollTop=document.body.scrollTop=cur+speed;
+     },30)
+   }
+}());
+</script>
+	
+</body>
+</html>

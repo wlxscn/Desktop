@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-size: 12px;
+            color: #666;
+        }
+        ul, li {
+            list-style: none;
+        }
+        h3{
+            max-width: 750px;
+            margin: 50px auto 0;
+        }
+        h3 span{
+            font-size: 12px;
+            font-weight: normal;;
+        }
+        .tabs{
+            max-width: 750px;
+            margin: 20px auto 0;
+            border: 1px solid #ddd;
+            text-align: center;
+            background: #f5f5f5;
+        }
+        .tabs .hd{
+            height: 30px;
+            line-height: 30px;
+            background: #fefefe; /* Old browsers */
+            background: -moz-linear-gradient(top,  #fefefe 1%, #f1f1f1 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#fefefe), color-stop(100%,#f1f1f1)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  #fefefe 1%,#f1f1f1 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  #fefefe 1%,#f1f1f1 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  #fefefe 1%,#f1f1f1 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  #fefefe 1%,#f1f1f1 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#f1f1f1',GradientType=0 ); /* IE6-9 */
+            border-bottom: 1px solid #ddd;
+        }
+        .tabs .hd li{
+            float: left;
+            height: 30px;
+            padding: 0 10px;
+            margin: 0 0 0 -1px;
+            cursor: pointer;
+        }
+        .tabs .hd li.on,.tabs .hd li.active{
+            border-left: solid 1px #d5d5d5;
+            border-right: solid 1px #d5d5d5;
+            border-top: solid 2px #ff6600;
+            background: #fff;
+            height: 30px;
+            line-height: 27px;
+            color: #3366cc;
+        }
+        .tabs .bd{
+            padding: 100px 0;
+        }
+        .tabs .bd li{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+  <div class='tabs' id='tabs'>
+  	<div class='hd'>
+  		<ul>
+  			<li class='on'>tab1</li>
+  			<li>tab2</li>
+  			<li>tab3</li>
+  		</ul>
+  	</div>
+  	<div class='bd'>
+  		<ul>
+  			<li>内容1</li>
+  			<li>内容2</li>
+  			<li>内容3</li>
+  		</ul>
+  	</div>
+  </div>
+
+</body>
+<script type="text/javascript">
+	window.onload = function(){
+        
+        var oTab3 = new Tabs('#tabs', {
+            on : 'on',      //当前标题选中的样式名，默认为 on
+            trigger : 'mouseover',      //触发方式，默认为 click
+            autoPlay : true,       //是否自动轮播，默认为false
+            effect : 'fade',        //切换效果，默认为空，可选参数为 fade
+            interTime : 2000,       //自动轮播自动运行的间隔，默认为3000
+            hd : '.hd li',      //导航元素对象，默认为  .hd li
+            bd : '.bd li',      //切换内容对象，默认为  .bd li
+            delayTime : '1500'       //切换效果持续时间，默认值为600
+        });
+    };
+	  function Tabs(selector, config){
+        this.config = config || {};
+        this.oId = document.querySelector(selector);
+        this.hdList = this.oId.querySelectorAll(this.config.hd || '.hd li');
+        this.bdList = this.oId.querySelectorAll(this.config.bd || '.bd li');
+        this.on = this.config.on || 'on';
+        this.len = this.hdList.length;
+        this.trigger = this.config.trigger || 'click';
+        this.oIndex = 0;
+        this.timer = this.config.interTime || 3000;
+        this.setTime = null;
+        this.delayTime = this.config.delayTime || 600;
+        this.aP = this.config.autoPlay || false;
+        this.oo = null;
+        this.init();
+    };
+	Tabs.prototype.init = function(){
+        var T = this;
+        for(var i = 0; i < this.len; i++){
+            this.hdList[i].index = i;
+            this.hdList[i].addEventListener ? this.hdList[i].addEventListener(T.trigger, function(){
+            
+                T.change(this);
+            }, false)  :  this.hdList[i].attachEvent('on' + T.trigger, function(){
+                
+                T.change(this);
+            }, false);
+        }
+        // T.hide(T.on);
+        
+    };
+	Tabs.prototype.change = function(obj) {
+        clearInterval(this.setTime);
+        clearInterval(this.setI);
+        for(var i = 0; i < this.len; i++) {
+            this.bdList[i].style.display = 'none';
+            this.hdList[i].className = '';
+        }
+        obj.className = this.on;
+        this.bdList[obj.index].style.display = 'block';
+        this.oIndex = obj.index;
+        this.effect();
+    };
+	Tabs.prototype.auto = function() {
+		 var T = this;
+        T.setI = setInterval(function() {
+            if(T.oIndex == T.len - 1){
+                T.oIndex = 0;
+            }else{
+                T.oIndex++;
+            }
+            for(var i = 0; i < T.len; i++) {
+                T.bdlist[i].style.display = 'none';
+                T.hdlist[i].className = '';
+            }
+            T.hdList[T.oIndex].className = T.on;
+            T.bdList[T.oIndex].style.display = 'block';
+        }, this.interTime);
+	};
+	Tabs.prototype.setOpacity = function(ele,target) {
+		ele.filter?ele.style.filter='alpha(opacity='+target+')':ele.style.opacity=target/100;
+
+	};
+	Tabs.prototype.effect = function() {
+        var T = this;
+        for(var i = 0; i < T.len; i++){
+            T.setOpacity(T.bdList[i], 0);
+        }
+        var s = 0;
+        T.setI = setInterval(function(){
+            s += 5;
+            if(s < 100){
+                T.setOpacity(T.bdList[T.oIndex],s);
+            }else{
+                clearInterval(T.setI);
+                s = 0;
+            }
+        }, T.delayTime/20);
+    };
+		
+	
+
+</script>
+</html>
